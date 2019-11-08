@@ -1,0 +1,249 @@
+---
+title: "notebook"
+author: "Juliette Verstaen"
+date: "11/8/2019"
+output: html_document
+---
+
+THIS CODE BELOW IS ALL JAVA SCRIPT STUFF probably wont need it but you never know
+
+Here is the code to save it as a .json file if we ever need it 
+data_json <- d3_nest(data)
+
+# Save in a json file
+write(data_json, "data_ready.json")
+
+
+##Create dendogram!
+Note: We are now writting in Java Script, so the code chunks are "js" instead of "r" 
+Code is from [this](https://www.d3-graph-gallery.com/graph/dendrogram_radial_basic.html) tutorial website 
+```{js}
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+
+<!-- Create a div where the graph will take place -->
+<div id="my_dataviz"></div>
+```
+
+```{js}
+
+<script>
+
+// set the dimensions and margins of the graph
+var width = 460
+var height = 460
+var radius = width / 2 // radius of the dendrogram
+
+// append the svg object to the body of the page
+var svg = d3.select("#my_dataviz")
+  .append("svg")
+    .attr("width", width)
+    .attr("height", height)
+  .append("g")
+    .attr("transform", "translate(" + radius + "," + radius + ")");
+
+// read json data
+d3.json("data_ready.json", function(data) {
+
+  // Create the cluster layout:
+  var cluster = d3.cluster()
+    .size([360, radius - 60]);  // 360 means whole circle. radius - 60 means 60 px of margin around dendrogram
+
+  // Give the data to this cluster layout:
+  var root = d3.hierarchy(data, function(d) {
+      return d.children;
+  });
+  cluster(root);
+
+  // Features of the links between nodes:
+  var linksGenerator = d3.linkRadial()
+      .angle(function(d) { return d.x / 180 * Math.PI; })
+      .radius(function(d) { return d.y; });
+
+  // Add the links between nodes:
+  svg.selectAll('path')
+    .data(root.links())
+    .enter()
+    .append('path')
+      .attr("d", linksGenerator)
+      .style("fill", 'none')
+      .attr("stroke", '#ccc')
+
+
+  // Add a circle for each node.
+  svg.selectAll("g")
+      .data(root.descendants())
+      .enter()
+      .append("g")
+      .attr("transform", function(d) {
+          return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")";
+      })
+      .append("circle")
+        .attr("r", 7)
+        .style("fill", "#69b3a2")
+        .attr("stroke", "black")
+        .style("stroke-width", 2)
+
+})
+
+</script>
+
+```
+
+
+Alright, I'm getting a little stuck here because I'm starting from scratch with my Java language skills! Am I creating a graph? where is it saving to? What's "div" ?? So I can either spend a lot of time learning Java and Html/CSS (which I may want to anyways), or go down this path of another package I found called r2d3. We'll start with that
+
+## Learning and Exploring r2d3 package
+
+This package is already more my jam. I need the hex sticker, it's so cite!
+Using [this](https://blog.rstudio.com/2018/10/05/r2d3-r-interface-to-d3-visualizations/) tutorial
+
+```{r}
+#install.packages("r2d3")
+library(r2d3)
+
+data_json
+```
+
+
+
+```{r}
+r2d3(script = rad_dend.js)
+```
+
+Ok now try this 
+https://observablehq.com/@d3/radial-dendrogram
+
+```{d3}
+chart = {
+  const root = tree(d3.hierarchy(data)
+      .sort((a, b) => (a.height - b.height) || a.data.name.localeCompare(b.data.name)));
+
+  const svg = d3.create("svg")
+      .style("max-width", "100%")
+      .style("height", "auto")
+      .style("font", "10px sans-serif")
+      .style("margin", "5px");
+  
+  const link = svg.append("g")
+      .attr("fill", "none")
+      .attr("stroke", "#555")
+      .attr("stroke-opacity", 0.4)
+      .attr("stroke-width", 1.5)
+    .selectAll("path")
+    .data(root.links())
+    .enter().append("path")
+      .attr("d", d3.linkRadial()
+          .angle(d => d.x)
+          .radius(d => d.y));
+  
+  const node = svg.append("g")
+      .attr("stroke-linejoin", "round")
+      .attr("stroke-width", 3)
+    .selectAll("g")
+    .data(root.descendants().reverse())
+    .enter().append("g")
+      .attr("transform", d => `
+        rotate(${d.x * 180 / Math.PI - 90})
+        translate(${d.y},0)
+      `);
+  
+  node.append("circle")
+      .attr("fill", d => d.children ? "#555" : "#999")
+      .attr("r", 2.5);
+  
+  node.append("text")
+      .attr("dy", "0.31em")
+      .attr("x", d => d.x < Math.PI === !d.children ? 6 : -6)
+      .attr("text-anchor", d => d.x < Math.PI === !d.children ? "start" : "end")
+      .attr("transform", d => d.x >= Math.PI ? "rotate(180)" : null)
+      .text(d => d.data.name)
+    .filter(d => d.children)
+    .clone(true).lower()
+      .attr("stroke", "white");
+
+  yield svg.node();
+
+  svg.attr("viewBox", autoBox);
+}
+
+#############
+
+function autoBox() {
+  const {x, y, width, height} = this.getBBox();
+  return [x, y, width, height];
+}
+
+data = FileAttachment("data_ready.json").json()
+
+width = 975
+
+radius = width / 2
+
+tree = d3.cluster().size([2 * Math.PI, radius - 100])
+
+d3 = require("d3@5")
+```
+
+
+```{js, barchart}
+// !preview r2d3 data=c(0.3, 0.6, 0.8, 0.95, 0.40, 0.20)
+
+var barHeight = Math.floor(height / data.length);
+
+svg.selectAll('rect')
+  .data(data)
+  .enter().append('rect')
+    .attr('width', function(d) { return d * width; })
+    .attr('height', barHeight)
+    .attr('y', function(d, i) { return i * barHeight; })
+    .attr('fill', 'steelblue');
+```
+
+
+```{r}
+library(r2d3)
+r2d3(data=c(0.3, 0.6, 0.8, 0.95, 0.40, 0.20), script = "barchart.js")
+```
+
+
+## OKAY lets maybe leave the whole java script thing for a bit. I found some simplier fully based in R code for dendograms. They are ugly, but maybe it's a good starting point and I can work on making them prettier
+https://www.r-graph-gallery.com/340-custom-your-dendrogram-with-dendextend.html
+
+```{r}
+# Library
+library(tidyverse)
+library(ape)
+ 
+# Data
+head(mtcars)
+ 
+# Clusterisation using 3 variables
+mtcars %>% 
+  select(mpg, cyl, disp) %>% 
+  dist() %>% 
+  hclust()
+#%>%  as.dendrogram() -> dend
+ 
+# Plot
+par(mar=c(7,3,1,1))  # Increase bottom margin to have the complete label
+plot(mtcars, type = "radial")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

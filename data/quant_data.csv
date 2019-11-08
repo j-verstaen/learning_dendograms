@@ -1,0 +1,59 @@
+﻿Agencies/Organizations,Data Layer,Type,Goal,Number People,Number Agencies/Organizations
+NOAA Ocean Acidification Program,cc_acid.csv,pressure,pressure,0,2
+AVISO+,cc_slr.csv,pressure,pressure,0,1
+NOAA National Centers for Environmental Information,cc_sst.csv,pressure,pressure,0,1
+EPA,cw_pathogens.csv,goal,clean waters,,
+EPA,cw_sqi.csv,goal,clean waters,,
+Ocean Conservancy,cw_trash.csv,goal,clean waters,,
+EPA,cw_wqi.csv,goal,clean waters,,
+NOEP,eco_coast_gdp.csv,goal,livelihoods and economies,,
+fill in,element_wts_hab_pres_abs.csv,goal,biodiversity,,
+NOAA Fisheries,fis_meancatch.csv,goal,food provision,,
+NOAA Fisheries,fis_stockscores.csv,goal,food provision,,
+Northeast Ocean Data Portal,hab_eelgrass.csv,goal,biodiversity,,
+NOAA Office of Coastal Management,hab_salt_marsh.csv,goal,biodiversity,,
+Northeast Ocean Data Portal,hab_sasi.csv,goal,biodiversity,,
+fill in,hd_subtidal.csv,goal,biodiversity,,
+Northeast Ocean Data Portal,hs_carbon_storage.csv,goal,habitat services,,
+NOAA Office of Coastal Management,hs_carbon_storage.csv,goal,habitat services,,
+Northeast Ocean Data Portal,hs_coastal_protection.csv,goal,habitat services,,
+NOAA Office of Coastal Management,hs_coastal_protection.csv,goal,habitat services,,
+Nature Serve,ico_scores.csv,goal,sense of place,,
+ICUN,ico_scores.csv,goal,sense of place,,
+NOEP,le_coast_wages.csv,goal,livelihoods and economies,,
+NOEP,le_job_growth.csv,goal,livelihoods and economies,,
+USGS,lsp_protected_land.csv,goal,sense of place,,
+USGS,lsp_protected_marine.csv,goal,sense of place,,
+"University of Maine, Department of Maine Resources, University of New Hampshire, Cornell, University of Connecticut, Connecticut Department of Agriculture, University of Rhode Island, Barnstable County",mar_production.csv,goal,food provision,12,8
+Montery Bay Aquarium,mar_sust_scores.csv,goal,food provision,ask jamie and court,
+Montery Bay Aquarium,prs_aqua_hab.csv,pressure,pressure,ask jamie and court,
+Montery Bay Aquarium,prs_disease.csv,pressure,pressure,ask jamie and court,
+IMAS,prs_fishing.csv,pressure,pressure,,
+NOAA Office of Response and Restoration,prs_hardening.csv,pressure,pressure,0,1
+EPA,prs_pathogens.csv,pressure,pressure,,
+NE Data Portal,prs_sasi.csv,pressure,pressure,,
+"NOAA Office of Science and Technology, NOAA Office of Science and Technology, Opportunity Index, State Competitiveness Report, League of Conservation Voters, Grading the States",prs_social.csv,pressure,pressure,3,5
+EPA,prs_sqi.csv,pressure,pressure,,
+NASA,prs_trampling.csv,pressure,pressure,0,1
+Ocean Conservancy,prs_trash.csv,pressure,pressure,,
+EPA,prs_wqi.csv,pressure,pressure,,
+Bureau of Labor Statistics,rao_econ_access.csv,goal,ressource access opportunity,,
+EIA,rao_econ_access.csv,goal,ressource access opportunity,,
+NOAA Fisheries,rao_fssi.csv,goal,ressource access opportunity,"Karen Greene, more?",1
+Fill in,rao_gas_to_wage_ratio.csv,goal,ressource access opportunity,ask jamie and court,
+USGS,res_alien.csv,resilience,resilience,0,2
+"ACEE, America's Pledge Report 1, EIA, EPA",res_climate_change.csv,resilience,resilience,3,4
+Fill in,res_eco_integrity.csv,resilience,resilience,,
+"NOAA Office of Law Enforcement, NOAA Fisheries Observer Program, NOAA Fisheries, Coastgaurd",res_fishing.csv,resilience,resilience,8,4
+"Surfrider Foundation, NOAA Greater Atlantic Regional Fisheries Office, USGS Pad 2.0",res_hab_destruction.csv,resilience,resilience,3,3
+"NOAA Office of Science and Technology, NOAA Office of Science and Technology, Opportunity Index, State Competitiveness Report, League of Conservation Voters",res_social.csv,resilience,resilience,3,5
+EPA,res_water_pollution.csv,resilience,resilience,0,1
+NOAA Office of Science and Technology,sop_comm_engagement.csv,goal,sense of place,1,
+NOAA Office of Science and Technology,sop_rec_reliance.csv,goal,sense of place,1,
+USGS NAS,sp_alien.csv,pressure,pressure,0,1
+Montery Bay Aquarium,sp_genetic.csv,pressure,pressure,ask jamie and court,
+ICUN,spp_status_scores.csv,goal,biodiversity,,
+Fill in,spp_trend.csv,goal,biodiversity,,
+EPA,tr_beach_closures.csv,goal,tourism and recreation,,
+National Ocean Economics Program,tr_job_growth.csv,goal,tourism and recreation,,
+NOAA Office of Response and Restoration,tr_rao_coastal_access.csv,goal,tourism and recreation,,

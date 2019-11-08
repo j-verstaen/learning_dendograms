@@ -1,0 +1,94 @@
+---
+title: "Learning Dendograms"
+author: "Juliette Verstaen"
+date: "11/8/2019"
+output: html_document
+---
+
+```{r load packages}
+library(knitr)
+library(tidyverse)
+library(readr)
+library(devtools)
+```
+
+```{r read in data}
+quant <- read.csv("data/quant_data_simple.csv", na.strings = c("", "NA")) %>% 
+  filter(!is.na(Agencies_Organizations)) 
+```
+
+# Trying to use the d3r package 
+Using this [tutorial](https://www.d3-graph-gallery.com/graph/dendrogram_radial_basic.html) tutorial website 
+
+##Transforming df into a .json file 
+
+```{r}
+#devtools::install_github("timelyportfolio/d3r")
+library(d3r)
+devtools::install_github("christophergandrud/networkD3")
+library(networkD3)
+library(fishualize)
+```
+
+In order to use the D3 package our data needs to be transformed into a heirarchy format and saved as a .json file
+
+Transforming our data in a heirarchy df
+```{r heirarchy transform}
+### count the number of times a different souce was used for each goal/prs/res 
+prs <- sum(str_count(quant$Goal, pattern = "pressure"))
+res <- sum(str_count(quant$Goal, pattern = "resilience"))
+bd <- sum(str_count(quant$Goal, pattern = "biodiversity"))
+cw <- sum(str_count(quant$Goal, pattern = "clean waters"))
+le <- sum(str_count(quant$Goal, pattern = "livelihoods and economies"))
+fp <- sum(str_count(quant$Goal, pattern = "food provision"))
+hs <- sum(str_count(quant$Goal, pattern = "habitat services"))
+sop <- sum(str_count(quant$Goal, pattern = "sense of place"))
+rao <- sum(str_count(quant$Goal, pattern = "resource access opportunity"))
+tr <- sum(str_count(quant$Goal, pattern = "tourism and recreation"))
+
+### organize the sources in the same order as they are going to be read in below, so they match up with the right goal/prs/res 
+sources_ordered <- quant %>% 
+  select(Agencies_Organizations, Goal) %>% 
+  arrange(Goal) 
+  
+### save the sources as a list that can be added as a third level for the dendogram. They need to be in alphabetical order to match up with the sources 
+data <- data.frame(
+ # level1="OHI",
+  level2= c(rep("biodiversity", bd),
+            rep("clean waters", cw),
+            rep("food provision", fp),
+            rep("habitat services", hs),
+            rep("livelihoods and economies", le),
+            rep("pressure", prs), 
+            rep("resilience", res),
+            rep("resource access opportunity", rao),
+            rep("sense of place", sop),
+            rep("tourism and recreation", tr)),
+  level3 = sources_ordered$Agencies_Organizations) # do level three with "Goal" instead of "Agencies and Orgs" as a check. they should all match up
+```
+
+
+
+```{r}
+Flare <- jsonlite::fromJSON(data_json, simplifyDataFrame = FALSE)
+
+radialNetwork(List = Flare, 
+              fontSize = 10, 
+              opacity = 0.9,
+  nodeStroke = "transparant")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
